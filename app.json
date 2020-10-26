@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "AvivApp",
-    "slug": "AvivApp",
+    "name": "BeatFit",
+    "slug": "BeatFit",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
