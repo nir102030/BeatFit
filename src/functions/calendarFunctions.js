@@ -1,9 +1,9 @@
 import { getTotalSetsNum, getTotalSetsCompleted } from './trainingsFunctions';
 import { getTotalCalories, getTotalCaloriesConsumed } from './nutritionFunctions';
 
-export const getMarkedDates = (program) => {
+export const getMarkedDates = (program, dailysPrograms) => {
 	let markedDates = {};
-	program.dailysPrograms.map((dailyProgram) => {
+	dailysPrograms.map((dailyProgram) => {
 		const total =
 			program.type == 'trainings' ? getTotalSetsNum(dailyProgram.items) : getTotalCalories(dailyProgram.items);
 		const completed =

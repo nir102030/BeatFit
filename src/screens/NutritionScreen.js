@@ -45,6 +45,7 @@ const NutritionScreen = () => {
 			<Calendar
 				onDayPress={(date) => setNewDailyProgram(date.dateString)}
 				program = {program}
+				dailysPrograms = {program.dailysPrograms}
 			/>
 			<Text style={styles.title}>תכנית תזונה יומית</Text>
 			{renderDailyProgram()}

@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 const user = {
 	id: 1,
 	userName: 'nir102030',
@@ -13,9 +15,11 @@ const user = {
 		{
 			type: 'trainings',
 			minRate: 0.7,
-			period: {unit:'months', value:3},
+			startDate: moment(),
+			endDate: moment().add(3,'months'),
+			period: {unit:'months',value:3},
 			frequancy: {unit:'week', value:3},
-			days: [1,3,5],
+			days: [0,2,4],
 			dailysPrograms: [
 				{
 					date: new Date().toJSON().substring(0, 10),
