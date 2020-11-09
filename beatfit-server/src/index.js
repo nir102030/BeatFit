@@ -31,12 +31,12 @@ mongoose.connection.on('error', (err) => {
 	console.error('Error connecting to mongo', err);
 });
 
-//Make a get request to the user information (log in),
-//that uses the requireAuth middleware to make sure the user will have access to db only if he have a valid token (jsw)
+//Make a get request to the user information when entering the default route of the app,
+//that uses the requireAuth middleware to make sure the user will have access to db by verify the jwt
 app.get('/', requireAuth, (req, res) => {
 	res.send(`Your email: ${req.user.email}`);
 });
 
 app.listen(3000, () => {
-  console.log(`Example app listening at http://localhost:${3000}`)
-})
+	console.log(`listening at http://localhost:${3000}`);
+});
