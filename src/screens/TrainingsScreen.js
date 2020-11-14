@@ -3,7 +3,7 @@ import { Text, StyleSheet, ScrollView } from 'react-native';
 import getUser from './demoData';
 import DailyProgram from '../componenets/DailyProgram';
 import Calendar from '../componenets/Calendar';
-import {generateDailysTrainings} from '../functions/trainingsFunctions';
+import { generateDailysTrainings } from '../functions/trainingsFunctions';
 
 const TrainingsScreen = () => {
 	const initialProgram = getUser().programs.find((program) => program.type == 'trainings'); //get the user trainings program
@@ -12,9 +12,6 @@ const TrainingsScreen = () => {
 	const initialDate = new Date().toJSON().substring(0, 10); //set today as the initial date
 	const initialDailyProgram = program.dailysPrograms.find((dailyProgram) => dailyProgram.date == initialDate); //find today's daily program
 	const [dailyProgram, setDailyProgram] = useState(initialDailyProgram);
-	console.log(dailyProgram)
-
-
 
 	//update the program after a change in the current daily program
 	const updateProgram = (newDailyProgram) => {
@@ -35,13 +32,13 @@ const TrainingsScreen = () => {
 	const renderDailyProgram = () => {
 		return dailyProgram ? (
 			<DailyProgram
-				key = {dailyProgram.date}
+				key={dailyProgram.date}
 				dailyProgram={dailyProgram}
 				setProgram={(newDailyProgram) => updateProgram(newDailyProgram)}
-				programType = {program.type}
+				programType={program.type}
 			/>
 		) : (
-			<Text >אין תכנית אימון ביום זה</Text>
+			<Text>אין תכנית אימון ביום זה</Text>
 		);
 	};
 
@@ -50,7 +47,7 @@ const TrainingsScreen = () => {
 			<Calendar
 				onDayPress={(date) => setNewDailyProgram(date.dateString)}
 				program={program}
-				dailysPrograms = {program.dailysPrograms}
+				dailysPrograms={program.dailysPrograms}
 			/>
 			<Text style={styles.title}>תכנית אימון יומית</Text>
 			{renderDailyProgram()}
@@ -59,7 +56,7 @@ const TrainingsScreen = () => {
 };
 
 const styles = StyleSheet.create({
-	container:{
+	container: {
 		//backgroundColor:'#b4e4e6',
 	},
 	title: {

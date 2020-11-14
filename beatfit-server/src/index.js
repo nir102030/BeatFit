@@ -34,7 +34,7 @@ mongoose.connection.on('error', (err) => {
 //Make a get request to the user information when entering the default route of the app,
 //that uses the requireAuth middleware to make sure the user will have access to db by verify the jwt
 app.get('/', requireAuth, (req, res) => {
-	res.send(`Your email: ${req.user.email}`);
+	res.send(req.user);
 });
 
 app.listen(3000, () => {

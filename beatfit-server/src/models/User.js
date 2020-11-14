@@ -14,6 +14,26 @@ const userSchema = new mongoose.Schema({
 		type: String,
 		required: true,
 	},
+	lname: {
+		type: String,
+		required: false,
+	},
+	age: {
+		type: String,
+		required: false,
+	},
+	height: {
+		type: String,
+		required: false,
+	},
+	weight: {
+		type: String,
+		required: false,
+	},
+	img: {
+		type: String,
+		required: false,
+	},
 });
 
 //This is called pre-save hook
