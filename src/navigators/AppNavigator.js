@@ -6,7 +6,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from '../screens/HomeScreen';
-import SettingsScreen from '../screens/SettingsScreen';
+import ProfileScreen from '../screens/ProfileScreen';
 import LoginScreen from '../screens/LoginScreen';
 import TrainingsScreen from '../screens/TrainingsScreen';
 import NutritionScreen from '../screens/NutritionScreen';
@@ -17,12 +17,12 @@ import { Context as UserContext } from '../context/UserContext';
 import SignUpScreen from '../screens/SignUpScreen';
 
 const AppNavigator = () => {
-	//get auth state and actions
+	//get authentication state and actions
 	const authContext = useContext(AuthContext);
 	const authState = authContext.state;
 	const tryLocalSignin = authContext.tryLocalSignin;
 
-	//get user state and actions
+	//get user's state and actions
 	const userContext = useContext(UserContext);
 	const userState = userContext.state;
 	const getUser = userContext.getUser;
@@ -76,12 +76,12 @@ const AppNavigator = () => {
 	};
 
 	//drawer navigator
-	//contains the main flow tab navigator as 'Home' and the settings screen
+	//contains the main flow tab navigator as 'Home' and the Profile screen
 	const SideDrawer = () => {
 		return (
 			<Drawer.Navigator initialRouteName="Home" drawerType={'slide'}>
 				<Drawer.Screen name="Home" component={MainFlow} />
-				<Drawer.Screen name="Settings" component={SettingsScreen} />
+				<Drawer.Screen name="Profile" component={ProfileScreen} />
 			</Drawer.Navigator>
 		);
 	};
@@ -89,9 +89,12 @@ const AppNavigator = () => {
 	//main stack
 	//rendered in case the user is alredy signed in
 	const mainStack = () => {
+		//in case the user is detailes are not loaded yet (waiting for server)
+		//render the loading screen
+		//otherwise, render the side drawer that contains all the app logic
 		return (
 			<Stack.Navigator>
-				{userState.user.img ? (
+				{userState.user.userName ? (
 					<Stack.Screen
 						name={'BeatFit'}
 						component={SideDrawer}
@@ -112,6 +115,8 @@ const AppNavigator = () => {
 	//login stack
 	//rendered in case the user is not signed in
 	const loginStack = () => {
+		//in case the loading state is true (when waiting for server) render the loading screen
+		//otherwise, render the login/signup screens
 		return authState.loading ? (
 			<Stack.Navigator>
 				<Stack.Screen name="Loading" component={LoadingScreen} options={{ headerShown: false }} />
@@ -138,7 +143,13 @@ const AppNavigator = () => {
 		);
 	};
 
-	return <NavigationContainer>{authState.token ? mainStack() : loginStack()}</NavigationContainer>;
+	//in case the user is signed in (his state contains a jwt), render the main stack
+	//otherwise, render the login stack
+	const renderStack = () => {
+		return authState.token ? mainStack() : loginStack();
+	};
+
+	return <NavigationContainer>{renderStack()}</NavigationContainer>;
 };
 
 export default AppNavigator;

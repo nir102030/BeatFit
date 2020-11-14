@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import { Button } from 'react-native-elements';
 import { Context as AuthContext } from '../context/AuthContext';
 
-const SettingsScreen = () => {
+const ProfileScreen = () => {
 	const { signout } = useContext(AuthContext);
 
 	const handleSignOut = () => {
@@ -17,4 +17,4 @@ const SettingsScreen = () => {
 	);
 };
 
-export default SettingsScreen;
+export default ProfileScreen;

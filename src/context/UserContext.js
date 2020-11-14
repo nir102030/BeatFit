@@ -10,6 +10,7 @@ const userReducer = (state, action) => {
 	}
 };
 
+//get the user details
 const getUser = (dispatch) => async (token) => {
 	try {
 		const res = await api.get('/', { headers: { token: token } });
