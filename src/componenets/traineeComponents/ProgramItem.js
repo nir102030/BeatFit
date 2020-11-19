@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, StyleSheet, Image, Text } from 'react-native';
 import ProgramSubItem from './ProgramSubItem';
 
-const ProgramItem = ({ item, category, columnsTitles, setDailyProgram }) => {
-
+const ProgramItem = ({ item, category, columnsTitles, setDailyProgram, finished }) => {
 	//update the current program item with the new subitem
 	const setSubItem = (newSubItem) => {
 		const newSubItems = item.subItems.map((subItem) => {
@@ -14,12 +13,23 @@ const ProgramItem = ({ item, category, columnsTitles, setDailyProgram }) => {
 
 	//render the titles of the current program item
 	const renderTitles = columnsTitles.map((columnTitle) => {
-		return <Text key={columnTitle} style={styles.listItem}>{columnTitle}</Text>;
+		return (
+			<Text key={columnTitle} style={styles.listItem}>
+				{columnTitle}
+			</Text>
+		);
 	});
 
-	//render the sub items of the current program item 
+	//render the sub items of the current program item
 	const renderSubItems = item.subItems.map((subItem) => {
-		return <ProgramSubItem key = {subItem.name} subItem={subItem} setProgramItem={(newSubItem) => setSubItem(newSubItem)} />;
+		return (
+			<ProgramSubItem
+				key={subItem.name}
+				subItem={subItem}
+				setProgramItem={(newSubItem) => setSubItem(newSubItem)}
+				finished={finished}
+			/>
+		);
 	});
 
 	return (

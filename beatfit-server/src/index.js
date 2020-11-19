@@ -1,9 +1,12 @@
 require('../src/models/User'); // Because we don't want to use it as a variable, we don't use const (we want to use it once)
+require('../src/models/Program');
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const requireAuth = require('../src/middlewares/requireAuth');
 const authRoutes = require('../src/routs/authRouts');
+const userRoutes = require('../src/routs/userRouts');
+//const programRouts = require('../src/routs/programRouts');
 
 //Create an express server
 const app = express();
@@ -13,6 +16,8 @@ app.use(bodyParser.json());
 
 //Use the different routes
 app.use(authRoutes);
+app.use(userRoutes);
+//app.use(programRouts);
 
 //Connect to mongo DB
 const mongoUri = 'mongodb+srv://dbNir:bhRvnkl102030@cluster0-xuwhd.mongodb.net/beatfit?retryWrites=true&w=majority';

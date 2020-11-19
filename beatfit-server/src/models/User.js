@@ -14,6 +14,10 @@ const userSchema = new mongoose.Schema({
 		type: String,
 		required: true,
 	},
+	fname: {
+		type: String,
+		required: true,
+	},
 	lname: {
 		type: String,
 		required: false,
@@ -32,6 +36,10 @@ const userSchema = new mongoose.Schema({
 	},
 	img: {
 		type: String,
+		required: false,
+	},
+	programs: {
+		type: Object,
 		required: false,
 	},
 });

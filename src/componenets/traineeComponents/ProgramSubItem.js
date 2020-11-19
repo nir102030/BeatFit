@@ -1,29 +1,30 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { CheckBox } from 'react-native-elements';
 
-const ProgramSubItem = ({ subItem, setProgramItem }) => {
-	//const [subItem, setSubItem] = useState(initialSubItem);
-	//console.log(subItem);
-
+const ProgramSubItem = ({ subItem, setProgramItem, finished }) => {
+	const checkboxColor = finished ? 'grey' : 'green';
 	const renderSubItem = subItem.columnsValues.map((value) => {
-		return <Text key = {value} style={styles.listItem}>{value}</Text>;
+		return (
+			<Text key={value} style={styles.listItem}>
+				{value}
+			</Text>
+		);
 	});
 
 	return (
 		<View style={styles.container}>
 			<CheckBox
-				//iconRight={true}
-				//right={true}
 				size={20}
 				containerStyle={styles.checkBox}
 				textStyle={styles.checkBoxText}
 				title={subItem.name}
 				checked={subItem.done}
 				onPress={() => {
-					const newValue = !subItem.done;
+					const newValue = finished ? subItem.done : !subItem.done;
 					setProgramItem({ ...subItem, done: newValue });
 				}}
+				checkedColor={checkboxColor}
 			/>
 			<View style={styles.list}>{renderSubItem}</View>
 		</View>

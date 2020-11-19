@@ -12,14 +12,12 @@ const router = express.Router();
 //Sign up
 router.post('/signup', async (req, res) => {
 	//Distract the email and password json objects from the body of the request
-
-	const { userName, password, fname, lastName, age, height, weight, img } = req.body.user;
+	const { userName, password, fname, lname, age, height, weight, img } = req.body.user;
 
 	//if there isn't an error
 	try {
 		//Create a new user show in the Users collection in the DB
-		const user = new User({ userName, password, fname, lastName, age, height, weight, img });
-
+		const user = new User({ userName, password, fname, lname, age, height, weight, img });
 		//Save this user to the DB
 		await user.save();
 

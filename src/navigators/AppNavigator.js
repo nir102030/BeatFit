@@ -8,13 +8,13 @@ import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from '../screens/HomeScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import LoginScreen from '../screens/LoginScreen';
-import TrainingsScreen from '../screens/TrainingsScreen';
-import NutritionScreen from '../screens/NutritionScreen';
 import HeaderMenu from '../componenets/genericComponents/HeaderMenu';
 import ProfileAvatar from '../componenets/genericComponents/ProfileAvatar';
 import { Context as AuthContext } from '../context/AuthContext';
 import { Context as UserContext } from '../context/UserContext';
 import SignUpScreen from '../screens/SignUpScreen';
+import CreateProgramScreen from '../screens/CreateProgramScreen';
+import ProgramScreen from '../screens/ProgramScreen';
 
 const AppNavigator = () => {
 	//get authentication state and actions
@@ -45,7 +45,7 @@ const AppNavigator = () => {
 					name="Home"
 					component={HomeScreen}
 					options={{
-						tabBarLabel: 'Home',
+						tabBarLabel: 'בית',
 						tabBarIcon: ({ color, size }) => (
 							<MaterialCommunityIcons name="home" color={color} size={size} />
 						),
@@ -53,9 +53,10 @@ const AppNavigator = () => {
 				/>
 				<Tab.Screen
 					name="Trainings"
-					component={TrainingsScreen}
+					component={ProgramScreen}
+					initialParams={{ programType: 'training' }}
 					options={{
-						tabBarLabel: 'Trainings',
+						tabBarLabel: 'אימונים',
 						tabBarIcon: ({ color, size }) => (
 							<MaterialIcons name="fitness-center" color={color} size={size} />
 						),
@@ -63,9 +64,10 @@ const AppNavigator = () => {
 				/>
 				<Tab.Screen
 					name="Nutrition"
-					component={NutritionScreen}
+					component={ProgramScreen}
+					initialParams={{ programType: 'nutrition' }}
 					options={{
-						tabBarLabel: 'Nutrition',
+						tabBarLabel: 'תזונה',
 						tabBarIcon: ({ color, size }) => (
 							<MaterialCommunityIcons name="nutrition" color={color} size={size} />
 						),
@@ -79,9 +81,9 @@ const AppNavigator = () => {
 	//contains the main flow tab navigator as 'Home' and the Profile screen
 	const SideDrawer = () => {
 		return (
-			<Drawer.Navigator initialRouteName="Home" drawerType={'slide'}>
-				<Drawer.Screen name="Home" component={MainFlow} />
-				<Drawer.Screen name="Profile" component={ProfileScreen} />
+			<Drawer.Navigator initialRouteName="ראשי" drawerType={'slide'}>
+				<Drawer.Screen name="ראשי" component={MainFlow} />
+				<Drawer.Screen name="פרופיל" component={ProfileScreen} />
 			</Drawer.Navigator>
 		);
 	};
@@ -95,16 +97,32 @@ const AppNavigator = () => {
 		return (
 			<Stack.Navigator>
 				{userState.user.userName ? (
-					<Stack.Screen
-						name={'BeatFit'}
-						component={SideDrawer}
-						options={({ navigation }) => ({
-							headerMode: 'screen',
-							headerTitleAlign: 'center',
-							headerRight: () => <ProfileAvatar imgSrc={userState.user ? userState.user.img : null} />,
-							headerLeft: () => <HeaderMenu navigation={navigation} />,
-						})}
-					/>
+					userState.user.programs ? (
+						<Stack.Screen
+							name={'BeatFit'}
+							component={SideDrawer}
+							options={({ navigation }) => ({
+								headerMode: 'screen',
+								headerTitleAlign: 'center',
+								headerRight: () => (
+									<ProfileAvatar imgSrc={userState.user ? userState.user.img : null} />
+								),
+								headerLeft: () => <HeaderMenu navigation={navigation} />,
+							})}
+						/>
+					) : (
+						<Stack.Screen
+							name="אזור מאמנים"
+							component={CreateProgramScreen}
+							options={() => ({
+								headerMode: 'screen',
+								headerTitleAlign: 'center',
+								headerRight: () => (
+									<ProfileAvatar imgSrc={userState.user ? userState.user.img : null} />
+								),
+							})}
+						/>
+					)
 				) : (
 					<Stack.Screen name="Loading" component={LoadingScreen} options={{ headerShown: false }} />
 				)}
@@ -124,19 +142,21 @@ const AppNavigator = () => {
 		) : (
 			<Stack.Navigator>
 				<Stack.Screen
-					name="Login"
+					name="כניסה"
 					component={LoginScreen}
 					options={() => ({
 						headerMode: 'screen',
 						headerTitleAlign: 'center',
+						headerTitle: 'Beat-Fit',
 					})}
 				/>
 				<Stack.Screen
-					name="Signup"
+					name="הרשמה"
 					component={SignUpScreen}
 					options={() => ({
 						headerMode: 'screen',
 						headerTitleAlign: 'center',
+						headerTitle: 'Beat-Fit',
 					})}
 				/>
 			</Stack.Navigator>

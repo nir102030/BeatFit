@@ -35,7 +35,7 @@ export default function ImagePicker({ setUserImage }) {
 
 	return (
 		<View style={styles.container}>
-			<Button title="Pick a profile picture" onPress={pickImage} buttonStyle={styles.button} />
+			<Button title="בחר תמונת פרופיל" onPress={pickImage} buttonStyle={styles.button} />
 			{image && <Image source={{ uri: image }} style={styles.image} />}
 		</View>
 	);
@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
 	container: {
 		alignItems: 'center',
 		marginBottom: 30,
-		flexDirection: 'row-reverse',
+		flexDirection: 'row',
 	},
 	button: {
 		color: '#4ca1ad',

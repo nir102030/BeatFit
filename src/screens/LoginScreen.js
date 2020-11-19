@@ -13,7 +13,7 @@ const LoginScreen = ({ navigation }) => {
 
 	const handleSignIn = async () => {
 		if (!userName || !password) {
-			addErr('User name or password cannot be empty');
+			addErr('חובה למלא שם משתמש וסיסמא');
 		} else {
 			clearErrorMessage();
 			setLoading(true);
@@ -32,19 +32,19 @@ const LoginScreen = ({ navigation }) => {
 	return (
 		<View>
 			<Button
-				title="Go to Sign Up"
+				title="עבור לעמוד הרשמה"
 				style={styles.signin}
 				onPress={() => {
 					clearErrorMessage();
-					navigation.navigate('Signup');
+					navigation.navigate('הרשמה');
 				}}
 			/>
-			<Text style={styles.title}>Login to your profile</Text>
+			<Text style={styles.title}>כניסה לפרופיל</Text>
 			{renderErr()}
 			{renderSignedUpMessage()}
-			<Input placeholder="User Name" value={userName} onChangeText={(input) => setUserName(input)} />
-			<Input placeholder="Password" value={password} onChangeText={(input) => setPassword(input)} />
-			<Button buttonStyle={styles.button} title="Sign In" onPress={() => handleSignIn()} />
+			<Input placeholder="שם משתמש" value={userName} onChangeText={(input) => setUserName(input)} />
+			<Input placeholder="סיסמא" value={password} onChangeText={(input) => setPassword(input)} />
+			<Button buttonStyle={styles.button} title="כניסה" onPress={() => handleSignIn()} />
 		</View>
 	);
 };

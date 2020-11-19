@@ -1,8 +1,9 @@
 import React, { useState, useContext } from 'react';
-import { ScrollView, Text, StyleSheet } from 'react-native';
+import { ScrollView, Text, StyleSheet, Image } from 'react-native';
 import { Input, Button } from 'react-native-elements';
 import { Context as AuthContext } from '../context/AuthContext';
 import ImagePicker from '../componenets/genericComponents/ImagePicker';
+import alternateProfilePic from '../assets/alternateProfilePic.webp';
 
 const SignUpScreen = ({ navigation }) => {
 	const { state, signup, clearErrorMessage, addErr, setLoading } = useContext(AuthContext);
@@ -10,20 +11,22 @@ const SignUpScreen = ({ navigation }) => {
 		userName: '',
 		password: '',
 		fname: '',
-		lastName: '',
+		lname: '',
 		age: '',
 		height: '',
 		weight: '',
-		img: '',
+		img: null,
 	});
 
 	const handleSignUp = async () => {
-		if (!user.userName || !user.password) {
-			addErr('User name or password cannot be empty');
-		} else {
+		if (!user.userName || !user.password) addErr('User name or password cannot be empty');
+		if (!user.fname) addErr('You must enter a first name');
+		else {
+			//in case the user haven't picked any image, set a default one
+			const imgSrc = user.img ? user.img : Image.resolveAssetSource(alternateProfilePic).uri;
 			clearErrorMessage();
 			setLoading(true);
-			signup(user);
+			signup({ ...user, img: imgSrc });
 		}
 	};
 
@@ -34,48 +37,48 @@ const SignUpScreen = ({ navigation }) => {
 	return (
 		<ScrollView>
 			<Button
-				title="Go to Sign In"
+				title="עבור לעמוד כניסה לחשבון"
 				style={styles.signin}
 				onPress={() => {
 					clearErrorMessage();
-					navigation.navigate('Login');
+					navigation.navigate('כניסה');
 				}}
 			/>
-			<Text style={styles.title}>Sign Up</Text>
+			<Text style={styles.title}>רישום משתמש חדש</Text>
 			{renderErr()}
 			<Input
-				placeholder="User Name"
+				placeholder="שם משתמש"
 				value={user.userName}
 				onChangeText={(input) => setUser({ ...user, userName: input })}
 			/>
 			<Input
-				placeholder="Password"
+				placeholder="סיסמא"
 				value={user.password}
 				onChangeText={(input) => setUser({ ...user, password: input })}
 			/>
 			<Input
-				placeholder="First Name"
+				placeholder="שם פרטי"
 				value={user.fname}
 				onChangeText={(input) => setUser({ ...user, fname: input })}
 			/>
 			<Input
-				placeholder="Last Name"
+				placeholder="שם משפחה"
 				value={user.lname}
 				onChangeText={(input) => setUser({ ...user, lname: input })}
 			/>
-			<Input placeholder="Age" value={user.age} onChangeText={(input) => setUser({ ...user, age: input })} />
+			<Input placeholder="גיל" value={user.age} onChangeText={(input) => setUser({ ...user, age: input })} />
 			<Input
-				placeholder="Height"
+				placeholder="גובה"
 				value={user.height}
 				onChangeText={(input) => setUser({ ...user, height: input })}
 			/>
 			<Input
-				placeholder="Weight"
+				placeholder="משקל"
 				value={user.weight}
 				onChangeText={(input) => setUser({ ...user, weight: input })}
 			/>
 			<ImagePicker setUserImage={(img) => setUser({ ...user, img: img })} />
-			<Button buttonStyle={styles.button} title="Sign Up" onPress={() => handleSignUp()} />
+			<Button buttonStyle={styles.button} title="הרשם" onPress={() => handleSignUp()} />
 		</ScrollView>
 	);
 };

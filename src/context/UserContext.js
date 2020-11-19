@@ -5,6 +5,8 @@ const userReducer = (state, action) => {
 	switch (action.type) {
 		case 'get_user':
 			return { ...state, user: action.payload };
+		case 'edit_user':
+			return { ...state, user: action.payload, loading: false };
 		default:
 			return state;
 	}
@@ -20,8 +22,33 @@ const getUser = (dispatch) => async (token) => {
 	}
 };
 
+const editUser = (dispatch) => async (user) => {
+	try {
+		await api.post('/edituser', { user });
+		dispatch({
+			type: 'edit_user',
+			payload: user,
+		});
+	} catch {
+		console.log('Some problem occuard with update');
+	}
+};
+
 export const { Provider, Context } = createDataContext(
 	userReducer,
-	{ getUser },
-	{ user: { userName: '', password: '', fname: '', lastName: '', age: '', height: '', weight: '', img: '' } }
+	{ getUser, editUser },
+	{
+		user: {
+			userName: '',
+			password: '',
+			fname: '',
+			lastName: '',
+			age: '',
+			height: '',
+			weight: '',
+			img: '',
+			programs: {},
+		},
+		loading: false,
+	}
 );
