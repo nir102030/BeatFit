@@ -7,7 +7,7 @@ import { getTotalCalories, getTotalCaloriesConsumed } from '../../functions/nutr
 const DailyProgram = ({ dailyProgram, setProgram, programType }) => {
 	const category = dailyProgram.category;
 	const columnsTitles = dailyProgram.columnsTitles;
-
+	const today = new Date().toJSON().substring(0, 10);
 	//update the current daily program with the new item
 	const setItem = (newItem) => {
 		const newItems = dailyProgram.items.map((item) => {
@@ -28,7 +28,8 @@ const DailyProgram = ({ dailyProgram, setProgram, programType }) => {
 					category={category}
 					columnsTitles={columnsTitles}
 					setDailyProgram={(newItem) => setItem(newItem)}
-					finished={dailyProgram.finished}
+					//blocked={dailyProgram.date == today ? dailyProgram.finished : dailyProgram.blocked}
+					blocked={false}
 				/>
 			</View>
 		);

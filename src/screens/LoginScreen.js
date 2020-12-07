@@ -2,11 +2,11 @@ import React, { useState, useContext } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Input, Button } from 'react-native-elements';
 import { Context as AuthContext } from '../context/AuthContext';
-import { Context as UserContext } from '../context/UserContext';
+import { getUserFromDb } from '../api/appApi';
 
-const LoginScreen = ({ navigation }) => {
+const LoginScreen = ({ navigation, route }) => {
+	const { setUser } = route.params;
 	const { state, signin, clearErrorMessage, addErr, setLoading } = useContext(AuthContext);
-	const { getUser } = useContext(UserContext); //we use the getUser function to get the user details on login
 
 	const [userName, setUserName] = useState();
 	const [password, setPassword] = useState();
@@ -17,7 +17,9 @@ const LoginScreen = ({ navigation }) => {
 		} else {
 			clearErrorMessage();
 			setLoading(true);
-			signin(userName, password, getUser);
+			const token = await signin(userName, password);
+			const user = await getUserFromDb(token);
+			setUser(user);
 		}
 	};
 

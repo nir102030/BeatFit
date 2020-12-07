@@ -1,15 +1,13 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { ScrollView } from 'react-native';
-import { Input, Button } from 'react-native-elements';
-import CreateDailyProgram from '../componenets/trainerComponents/CreateDailyProgram';
-import { Context as UserContext } from '../context/UserContext';
+import React, { useState, useEffect } from 'react';
+import { Button } from 'react-native-elements';
 import { getPrograms } from '../data/programData';
 import { generateDailysTrainings } from '../functions/trainingsFunctions';
 import { generateDailysMenus } from '../functions/nutritionFunctions';
+import { editUserInDb } from '../api/appApi';
 
-const CreateProgramScreen = () => {
+const CreateProgramScreen = ({ route }) => {
 	const [programs, setPrograms] = useState(); //in later versions, the program will be recived from other sources
-	const { state, editUser } = useContext(UserContext);
+	const { user, editUser } = route.params;
 
 	const initiatePrograms = () => {
 		const tempPrograms = getPrograms();
@@ -31,19 +29,13 @@ const CreateProgramScreen = () => {
 			<Button
 				title="ייבא תוכנית אימון"
 				onPress={() => {
-					editUser({
-						...state.user,
+					const newUser = {
+						...user,
 						programs: programs,
-					});
+					};
+					editUser(newUser);
 				}}
 			/>
-			{/* {programState.program ? (
-				<CreateDailyProgram
-					dailyProgram={programState.program}
-					programType={programState.program.type}
-					setProgram={(newProgram) => setProgram(newProgram)}
-				/>
-			) : null} */}
 		</>
 	);
 };

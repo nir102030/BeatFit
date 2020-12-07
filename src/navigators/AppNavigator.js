@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import LoadingScreen from '../screens/LoadingScreen';
 import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import { NavigationContainer } from '@react-navigation/native';
@@ -15,6 +15,7 @@ import { Context as UserContext } from '../context/UserContext';
 import SignUpScreen from '../screens/SignUpScreen';
 import CreateProgramScreen from '../screens/CreateProgramScreen';
 import ProgramScreen from '../screens/ProgramScreen';
+import { getUserFromDb, editUserInDb } from '../api/appApi';
 
 const AppNavigator = () => {
 	//get authentication state and actions
@@ -22,13 +23,22 @@ const AppNavigator = () => {
 	const authState = authContext.state;
 	const tryLocalSignin = authContext.tryLocalSignin;
 
-	//get user's state and actions
-	const userContext = useContext(UserContext);
-	const userState = userContext.state;
-	const getUser = userContext.getUser;
+	const [user, setUser] = useState(null);
+
+	const editUser = (newUser) => {
+		setUser(newUser);
+		editUserInDb(newUser);
+	};
+
+	//console.log(user);
 
 	useEffect(() => {
-		tryLocalSignin(getUser); //we send the getUser function to get the user details on login
+		const initiateUser = async () => {
+			const token = await tryLocalSignin();
+			const dbUser = await getUserFromDb(token);
+			setUser(dbUser);
+		};
+		initiateUser();
 	}, []);
 
 	//initiate the different navigators
@@ -44,6 +54,7 @@ const AppNavigator = () => {
 				<Tab.Screen
 					name="Home"
 					component={HomeScreen}
+					initialParams={{ user, editUser: (newUser) => editUser(newUser) }}
 					options={{
 						tabBarLabel: 'בית',
 						tabBarIcon: ({ color, size }) => (
@@ -54,7 +65,7 @@ const AppNavigator = () => {
 				<Tab.Screen
 					name="Trainings"
 					component={ProgramScreen}
-					initialParams={{ programType: 'training' }}
+					initialParams={{ programType: 'training', user, editUser: (newUser) => editUser(newUser) }}
 					options={{
 						tabBarLabel: 'אימונים',
 						tabBarIcon: ({ color, size }) => (
@@ -65,7 +76,7 @@ const AppNavigator = () => {
 				<Tab.Screen
 					name="Nutrition"
 					component={ProgramScreen}
-					initialParams={{ programType: 'nutrition' }}
+					initialParams={{ programType: 'nutrition', user, editUser: (newUser) => editUser(newUser) }}
 					options={{
 						tabBarLabel: 'תזונה',
 						tabBarIcon: ({ color, size }) => (
@@ -83,7 +94,11 @@ const AppNavigator = () => {
 		return (
 			<Drawer.Navigator initialRouteName="ראשי" drawerType={'slide'}>
 				<Drawer.Screen name="ראשי" component={MainFlow} />
-				<Drawer.Screen name="פרופיל" component={ProfileScreen} />
+				<Drawer.Screen
+					name="פרופיל"
+					component={ProfileScreen}
+					initialParams={{ user, editUser: (newUser) => editUser(newUser) }}
+				/>
 			</Drawer.Navigator>
 		);
 	};
@@ -96,17 +111,15 @@ const AppNavigator = () => {
 		//otherwise, render the side drawer that contains all the app logic
 		return (
 			<Stack.Navigator>
-				{userState.user.userName ? (
-					userState.user.programs ? (
+				{user ? (
+					user.programs ? (
 						<Stack.Screen
 							name={'BeatFit'}
 							component={SideDrawer}
 							options={({ navigation }) => ({
 								headerMode: 'screen',
 								headerTitleAlign: 'center',
-								headerRight: () => (
-									<ProfileAvatar imgSrc={userState.user ? userState.user.img : null} />
-								),
+								headerRight: () => <ProfileAvatar imgSrc={user ? user.img : null} />,
 								headerLeft: () => <HeaderMenu navigation={navigation} />,
 							})}
 						/>
@@ -114,12 +127,11 @@ const AppNavigator = () => {
 						<Stack.Screen
 							name="אזור מאמנים"
 							component={CreateProgramScreen}
+							initialParams={{ user, editUser: (newUser) => editUser(newUser) }}
 							options={() => ({
 								headerMode: 'screen',
 								headerTitleAlign: 'center',
-								headerRight: () => (
-									<ProfileAvatar imgSrc={userState.user ? userState.user.img : null} />
-								),
+								headerRight: () => <ProfileAvatar imgSrc={user ? user.img : null} />,
 							})}
 						/>
 					)
@@ -144,6 +156,7 @@ const AppNavigator = () => {
 				<Stack.Screen
 					name="כניסה"
 					component={LoginScreen}
+					initialParams={{ setUser }}
 					options={() => ({
 						headerMode: 'screen',
 						headerTitleAlign: 'center',

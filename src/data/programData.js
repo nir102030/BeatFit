@@ -8,14 +8,17 @@ const programs = {
 		period: { unit: 'months', value: 3 },
 		frequancy: { unit: 'week', value: 3 },
 		days: [0, 2, 4],
+		completedRate: 0,
 		dailysPrograms: [
 			{
 				date: new Date().toJSON().substring(0, 10),
 				KPIs: [],
 				category: 'סט',
 				columnsTitles: ['חזרות', 'משקל'],
-				total: 0,
+				total: 9,
 				completed: 0,
+				blocked: false,
+				finished: false,
 				items: [
 					{
 						title: 'שכיבות שמיכה',
@@ -88,14 +91,17 @@ const programs = {
 		minRate: 0.7,
 		startDate: moment(),
 		endDate: moment().add(1, 'months'),
+		completedRate: 0,
 		dailysPrograms: [
 			{
 				date: new Date().toJSON().substring(0, 10),
 				KPIs: [],
 				category: 'מאכל',
 				columnsTitles: ['כמות', 'יח', 'קלוריות'],
-				total: 0,
+				total: 950,
 				completed: 0,
+				blocked: true,
+				finished: false,
 				items: [
 					{
 						title: 'ארוחת בוקר',

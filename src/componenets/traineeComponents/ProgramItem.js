@@ -2,7 +2,7 @@ import React from 'react';
 import { View, StyleSheet, Image, Text } from 'react-native';
 import ProgramSubItem from './ProgramSubItem';
 
-const ProgramItem = ({ item, category, columnsTitles, setDailyProgram, finished }) => {
+const ProgramItem = ({ item, category, columnsTitles, setDailyProgram, blocked }) => {
 	//update the current program item with the new subitem
 	const setSubItem = (newSubItem) => {
 		const newSubItems = item.subItems.map((subItem) => {
@@ -27,13 +27,13 @@ const ProgramItem = ({ item, category, columnsTitles, setDailyProgram, finished 
 				key={subItem.name}
 				subItem={subItem}
 				setProgramItem={(newSubItem) => setSubItem(newSubItem)}
-				finished={finished}
+				blocked={blocked}
 			/>
 		);
 	});
 
 	return (
-		<View style={styles.container}>
+		<View style={blocked ? styles.blockedContainer : styles.container}>
 			<View style={styles.leftContainer}>
 				<Text style={styles.title}>{item.title}</Text>
 				<Image style={styles.image} source={item.image} />
@@ -52,6 +52,10 @@ const ProgramItem = ({ item, category, columnsTitles, setDailyProgram, finished 
 const styles = StyleSheet.create({
 	container: {
 		flexDirection: 'row',
+	},
+	blockedContainer: {
+		flexDirection: 'row',
+		opacity: 0.5,
 	},
 	leftContainer: {
 		borderColor: 'red',
@@ -88,7 +92,6 @@ const styles = StyleSheet.create({
 	image: {
 		width: 120,
 		height: 110,
-		//borderWidth: 1,
 		borderColor: '#cbcecd',
 		borderRadius: 10,
 		alignSelf: 'center',

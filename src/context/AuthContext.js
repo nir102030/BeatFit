@@ -21,19 +21,20 @@ const authReducer = (state, action) => {
 	}
 };
 
-const tryLocalSignin = (dispatch) => async (getUser) => {
+const tryLocalSignin = (dispatch) => async (getUserfromDb) => {
 	const token = await AsyncStorage.getItem('token');
 	if (token) {
 		dispatch({
 			type: 'signin',
 			payload: token,
 		});
-		getUser(token);
+		return token;
 	} else {
 		dispatch({
 			type: 'set_loading',
 			payload: false,
 		});
+		return null;
 	}
 };
 
@@ -56,7 +57,7 @@ const signup = (dispatch) => async (user) => {
 	}
 };
 
-const signin = (dispatch) => async (userName, password, getUser) => {
+const signin = (dispatch) => async (userName, password) => {
 	try {
 		const response = await api.post('/signin', { userName, password });
 		await AsyncStorage.setItem('token', response.data.token);
@@ -64,12 +65,13 @@ const signin = (dispatch) => async (userName, password, getUser) => {
 			type: 'signin',
 			payload: response.data.token,
 		});
-		getUser(response.data.token);
+		return response.data.token;
 	} catch (err) {
 		dispatch({
 			type: 'add_error',
-			payload: 'Something went wrong with sign in',
+			payload: 'קרתה תקלה בהתחברות',
 		});
+		return null;
 	}
 };
 

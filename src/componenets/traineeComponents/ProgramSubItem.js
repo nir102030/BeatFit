@@ -2,8 +2,8 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { CheckBox } from 'react-native-elements';
 
-const ProgramSubItem = ({ subItem, setProgramItem, finished }) => {
-	const checkboxColor = finished ? 'grey' : 'green';
+const ProgramSubItem = ({ subItem, setProgramItem, blocked }) => {
+	const checkboxColor = blocked ? 'grey' : 'green';
 	const renderSubItem = subItem.columnsValues.map((value) => {
 		return (
 			<Text key={value} style={styles.listItem}>
@@ -15,13 +15,13 @@ const ProgramSubItem = ({ subItem, setProgramItem, finished }) => {
 	return (
 		<View style={styles.container}>
 			<CheckBox
-				size={20}
+				size={25}
 				containerStyle={styles.checkBox}
 				textStyle={styles.checkBoxText}
 				title={subItem.name}
 				checked={subItem.done}
 				onPress={() => {
-					const newValue = finished ? subItem.done : !subItem.done;
+					const newValue = blocked ? subItem.done : !subItem.done;
 					setProgramItem({ ...subItem, done: newValue });
 				}}
 				checkedColor={checkboxColor}
@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
 	},
 	checkBoxText: {
 		color: '#6b6e72',
-		fontWeight: 'normal',
+		fontWeight: 'bold',
 	},
 	list: {
 		flexDirection: 'row',
