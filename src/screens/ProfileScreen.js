@@ -2,24 +2,18 @@ import React, { useContext, useState } from 'react';
 import { View, ScrollView, Text, StyleSheet, Image, Alert } from 'react-native';
 import { Button } from 'react-native-elements';
 import { Context as AuthContext } from '../context/AuthContext';
+import { Context as UserContext } from '../context/UserContext';
 import ProfileDetail from '../componenets/ProfileDetail';
 import { MaterialIcons, FontAwesome5, MaterialCommunityIcons } from '@expo/vector-icons';
 
-const ProfileScreen = ({ route }) => {
+const ProfileScreen = () => {
 	const { signout } = useContext(AuthContext);
-	const { user, editUser } = route.params;
-	const [localUser, setLocalUser] = useState(user);
-
-	const updateUser = (newUser) => {
-		setLocalUser(newUser);
-		editUser(newUser);
-	};
-
-	console.log(user);
+	const { state, editUser } = useContext(UserContext);
+	const user = state;
 
 	const signOutAlert = () => {
 		Alert.alert(
-			`היי ${localUser.fname}`,
+			`היי ${user.fname}`,
 			'אתה בטוח שברצונך להתנתק?',
 			[
 				{
@@ -39,25 +33,25 @@ const ProfileScreen = ({ route }) => {
 	return (
 		<ScrollView>
 			<View style={styles.imageContainer}>
-				<Image source={{ uri: localUser.img }} style={styles.image} />
-				<Text style={styles.name}>{`${localUser.fname} ${localUser.lname}`}</Text>
+				<Image source={{ uri: user.img }} style={styles.image} />
+				<Text style={styles.name}>{`${user.fname} ${user.lname}`}</Text>
 			</View>
 			<ProfileDetail
 				type={''}
-				value={localUser.age}
-				setValue={(input) => updateUser({ ...localUser, age: input })}
+				value={user.age}
+				setValue={(input) => editUser({ ...user, age: input })}
 				avatar={<MaterialIcons name="person" size={24} color="black" />}
 			/>
 			<ProfileDetail
 				type={'ס"מ'}
-				value={localUser.height}
-				setValue={(input) => updateUser({ ...localUser, height: input })}
+				value={user.height}
+				setValue={(input) => editUser({ ...user, height: input })}
 				avatar={<MaterialCommunityIcons name="human-male-height" size={24} color="black" />}
 			/>
 			<ProfileDetail
 				type={'ק"ג'}
-				value={localUser.weight}
-				setValue={(input) => updateUser({ ...localUser, weight: input })}
+				value={user.weight}
+				setValue={(input) => editUser({ ...user, weight: input })}
 				avatar={<FontAwesome5 name="weight" size={24} color="black" />}
 			/>
 			<Button title="התנתק מהפרופיל" onPress={() => handleSignOut()} buttonStyle={styles.signoutButton} />

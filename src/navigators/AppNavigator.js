@@ -15,30 +15,22 @@ import { Context as UserContext } from '../context/UserContext';
 import SignUpScreen from '../screens/SignUpScreen';
 import CreateProgramScreen from '../screens/CreateProgramScreen';
 import ProgramScreen from '../screens/ProgramScreen';
-import { getUserFromDb, editUserInDb } from '../api/appApi';
 
 const AppNavigator = () => {
 	//get authentication state and actions
-	const authContext = useContext(AuthContext);
-	const authState = authContext.state;
-	const tryLocalSignin = authContext.tryLocalSignin;
+	const {
+		state: { token, loading },
+		tryLocalSignin,
+	} = useContext(AuthContext);
 
-	const [user, setUser] = useState(null);
-
-	const editUser = (newUser) => {
-		setUser(newUser);
-		editUserInDb(newUser);
-	};
-
-	//console.log(user);
+	//get user state
+	const { state, getUser } = useContext(UserContext);
+	const user = state;
 
 	useEffect(() => {
-		const initiateUser = async () => {
-			const token = await tryLocalSignin();
-			const dbUser = await getUserFromDb(token);
-			setUser(dbUser);
-		};
-		initiateUser();
+		//the get user function is used here as a callback function
+		//in case the local signin succeed, the getUser function updates the user context with the current user
+		tryLocalSignin(getUser);
 	}, []);
 
 	//initiate the different navigators
@@ -54,7 +46,7 @@ const AppNavigator = () => {
 				<Tab.Screen
 					name="Home"
 					component={HomeScreen}
-					initialParams={{ user, editUser: (newUser) => editUser(newUser) }}
+					initialParams={{ user: user }}
 					options={{
 						tabBarLabel: 'בית',
 						tabBarIcon: ({ color, size }) => (
@@ -65,7 +57,7 @@ const AppNavigator = () => {
 				<Tab.Screen
 					name="Trainings"
 					component={ProgramScreen}
-					initialParams={{ programType: 'training', user, editUser: (newUser) => editUser(newUser) }}
+					initialParams={{ programType: 'training' }}
 					options={{
 						tabBarLabel: 'אימונים',
 						tabBarIcon: ({ color, size }) => (
@@ -76,7 +68,7 @@ const AppNavigator = () => {
 				<Tab.Screen
 					name="Nutrition"
 					component={ProgramScreen}
-					initialParams={{ programType: 'nutrition', user, editUser: (newUser) => editUser(newUser) }}
+					initialParams={{ programType: 'nutrition' }}
 					options={{
 						tabBarLabel: 'תזונה',
 						tabBarIcon: ({ color, size }) => (
@@ -94,11 +86,7 @@ const AppNavigator = () => {
 		return (
 			<Drawer.Navigator initialRouteName="ראשי" drawerType={'slide'}>
 				<Drawer.Screen name="ראשי" component={MainFlow} />
-				<Drawer.Screen
-					name="פרופיל"
-					component={ProfileScreen}
-					initialParams={{ user, editUser: (newUser) => editUser(newUser) }}
-				/>
+				<Drawer.Screen name="פרופיל" component={ProfileScreen} />
 			</Drawer.Navigator>
 		);
 	};
@@ -106,12 +94,13 @@ const AppNavigator = () => {
 	//main stack
 	//rendered in case the user is alredy signed in
 	const mainStack = () => {
-		//in case the user is detailes are not loaded yet (waiting for server)
-		//render the loading screen
+		//in case the user is details are not loaded yet (waiting for server), render the loading screen
 		//otherwise, render the side drawer that contains all the app logic
 		return (
 			<Stack.Navigator>
-				{user ? (
+				{user.userName ? (
+					//in case the user programs are not loaded yet, render the coach area
+					//otherwise, render the sideDrawer
 					user.programs ? (
 						<Stack.Screen
 							name={'BeatFit'}
@@ -127,7 +116,6 @@ const AppNavigator = () => {
 						<Stack.Screen
 							name="אזור מאמנים"
 							component={CreateProgramScreen}
-							initialParams={{ user, editUser: (newUser) => editUser(newUser) }}
 							options={() => ({
 								headerMode: 'screen',
 								headerTitleAlign: 'center',
@@ -147,7 +135,7 @@ const AppNavigator = () => {
 	const loginStack = () => {
 		//in case the loading state is true (when waiting for server) render the loading screen
 		//otherwise, render the login/signup screens
-		return authState.loading ? (
+		return loading ? (
 			<Stack.Navigator>
 				<Stack.Screen name="Loading" component={LoadingScreen} options={{ headerShown: false }} />
 			</Stack.Navigator>
@@ -156,7 +144,6 @@ const AppNavigator = () => {
 				<Stack.Screen
 					name="כניסה"
 					component={LoginScreen}
-					initialParams={{ setUser }}
 					options={() => ({
 						headerMode: 'screen',
 						headerTitleAlign: 'center',
@@ -176,10 +163,10 @@ const AppNavigator = () => {
 		);
 	};
 
-	//in case the user is signed in (his state contains a jwt), render the main stack
+	//in case the user is signed in (he has a valid token), render the main stack
 	//otherwise, render the login stack
 	const renderStack = () => {
-		return authState.token ? mainStack() : loginStack();
+		return token ? mainStack() : loginStack();
 	};
 
 	return <NavigationContainer>{renderStack()}</NavigationContainer>;

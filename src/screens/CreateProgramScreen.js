@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Button } from 'react-native-elements';
 import { getPrograms } from '../data/programData';
 import { generateDailysTrainings } from '../functions/trainingsFunctions';
 import { generateDailysMenus } from '../functions/nutritionFunctions';
-import { editUserInDb } from '../api/appApi';
+import { Context as UserContext } from '../context/UserContext';
 
-const CreateProgramScreen = ({ route }) => {
+const CreateProgramScreen = () => {
 	const [programs, setPrograms] = useState(); //in later versions, the program will be recived from other sources
-	const { user, editUser } = route.params;
+	const { state, editUser } = useContext(UserContext);
+	const user = state;
 
 	const initiatePrograms = () => {
 		const tempPrograms = getPrograms();
@@ -22,10 +23,6 @@ const CreateProgramScreen = ({ route }) => {
 
 	return (
 		<>
-			{/* <Button
-				title="Add Program"
-				onPress={() => editUser({ ...state.user, programs: [...state.user.programs, getProgram()] })}
-			/> */}
 			<Button
 				title="ייבא תוכנית אימון"
 				onPress={() => {

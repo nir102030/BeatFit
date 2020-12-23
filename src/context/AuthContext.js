@@ -21,20 +21,19 @@ const authReducer = (state, action) => {
 	}
 };
 
-const tryLocalSignin = (dispatch) => async (getUserfromDb) => {
+const tryLocalSignin = (dispatch) => async (getUser) => {
 	const token = await AsyncStorage.getItem('token');
 	if (token) {
 		dispatch({
 			type: 'signin',
 			payload: token,
 		});
-		return token;
+		getUser(token);
 	} else {
 		dispatch({
 			type: 'set_loading',
 			payload: false,
 		});
-		return null;
 	}
 };
 
@@ -52,12 +51,12 @@ const signup = (dispatch) => async (user) => {
 	} catch (err) {
 		dispatch({
 			type: 'add_error',
-			payload: 'User is already exist',
+			payload: 'המשתמש כבר קיים',
 		});
 	}
 };
 
-const signin = (dispatch) => async (userName, password) => {
+const signin = (dispatch) => async (userName, password, getUser) => {
 	try {
 		const response = await api.post('/signin', { userName, password });
 		await AsyncStorage.setItem('token', response.data.token);
@@ -65,13 +64,12 @@ const signin = (dispatch) => async (userName, password) => {
 			type: 'signin',
 			payload: response.data.token,
 		});
-		return response.data.token;
+		getUser(response.data.token);
 	} catch (err) {
 		dispatch({
 			type: 'add_error',
 			payload: 'קרתה תקלה בהתחברות',
 		});
-		return null;
 	}
 };
 

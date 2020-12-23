@@ -21,6 +21,8 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "description": "This is your app for managing your daily trainings and menus",
+    "githubUrl": "https://github.com/nir102030/BeatFit"
   }
 }

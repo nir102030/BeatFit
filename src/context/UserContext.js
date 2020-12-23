@@ -1,12 +1,13 @@
 import { api } from '../api/appApi';
 import createDataContext from '../context/createDataContext';
+import axios from 'axios';
 
 const userReducer = (state, action) => {
 	switch (action.type) {
 		case 'get_user':
-			return { ...state, user: action.payload };
+			return action.payload;
 		case 'edit_user':
-			return { ...state, user: action.payload, loading: false };
+			return action.payload;
 		default:
 			return state;
 	}
@@ -24,7 +25,7 @@ const getUser = (dispatch) => async (token) => {
 
 const editUser = (dispatch) => async (user) => {
 	try {
-		await api.post('/edituser', { user });
+		const res = await api.post('/edituser', { user });
 		dispatch({
 			type: 'edit_user',
 			payload: user,
@@ -38,17 +39,14 @@ export const { Provider, Context } = createDataContext(
 	userReducer,
 	{ getUser, editUser },
 	{
-		user: {
-			userName: '',
-			password: '',
-			fname: '',
-			lastName: '',
-			age: '',
-			height: '',
-			weight: '',
-			img: '',
-			programs: {},
-		},
-		loading: false,
+		userName: '',
+		password: '',
+		fname: '',
+		lastName: '',
+		age: '',
+		height: '',
+		weight: '',
+		img: '',
+		programs: {},
 	}
 );

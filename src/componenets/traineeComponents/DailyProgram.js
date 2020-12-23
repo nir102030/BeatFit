@@ -28,8 +28,7 @@ const DailyProgram = ({ dailyProgram, setProgram, programType }) => {
 					category={category}
 					columnsTitles={columnsTitles}
 					setDailyProgram={(newItem) => setItem(newItem)}
-					//blocked={dailyProgram.date == today ? dailyProgram.finished : dailyProgram.blocked}
-					blocked={false}
+					blocked={dailyProgram.date == today ? dailyProgram.finished : dailyProgram.blocked}
 				/>
 			</View>
 		);
