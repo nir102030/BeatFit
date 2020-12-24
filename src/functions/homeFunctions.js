@@ -1,35 +1,55 @@
+import moment from 'moment';
+
 export const getCompletedRate = (dailyPrograms, minRate) => {
 	let completed = 0;
 	let total = 0;
 	dailyPrograms.map((dailyProgram) => {
-		const dailyRate = dailyProgram.completed / dailyProgram.total;
-		if (dailyRate > minRate) completed++;
-		total++;
+		if (moment(dailyProgram.date) <= moment()) {
+			const dailyRate = dailyProgram.completed / dailyProgram.total;
+			if (dailyRate > minRate) completed++;
+			total++;
+		}
 	});
 	return completed / total;
 };
 
 export const getChartData = (program) => {
-	let completed = [0, 0, 0];
-	let total = [1, 1, 1];
-	let completedRate = [0, 0, 0];
+	let completedRate = [];
+	let months = [];
+	let month;
+	let indx = -1;
+	let completed = 0;
+	let total = 0;
 
 	program.dailysPrograms.map((dailyProgram) => {
-		if (dailyProgram.completed / dailyProgram.total > program.minRate) {
-			if (dailyProgram.date.substring(5, 7) == '12') completed[0]++;
-			if (dailyProgram.date.substring(5, 7) == '01') completed[1]++;
-			if (dailyProgram.date.substring(5, 7) == '02') completed[2]++;
+		month = moment(dailyProgram.date).format('MMMM');
+		if (indx == -1) {
+			months[0] = month;
+			indx++;
 		}
-		if (dailyProgram.date.substring(5, 7) == '12') total[0]++;
-		if (dailyProgram.date.substring(5, 7) == '01') total[1]++;
-		if (dailyProgram.date.substring(5, 7) == '02') total[2]++;
+
+		//count the completed dailys programs and the total
+		if (dailyProgram.completed / dailyProgram.total > program.minRate) {
+			completed++;
+		}
+		total++;
+
+		//add month to months array
+		if (months[indx] != month) {
+			completedRate = [...completedRate, (completed / total) * 100];
+			indx++;
+			months[indx] = month;
+			completed = 0;
+			total = 0;
+		}
 	});
-	completedRate[0] = Math.round((completed[0] / total[0]) * 100);
-	completedRate[1] = Math.round((completed[1] / total[1]) * 100);
-	completedRate[2] = Math.round((completed[2] / total[2]) * 100);
+
+	//calculate the completed rate for the last month
+	completedRate = [...completedRate, (completed / total) * 100];
+	months[indx] = month;
 
 	return {
-		labels: ['December', 'Janruary', 'February'],
+		labels: months,
 		datasets: [
 			{
 				data: completedRate,

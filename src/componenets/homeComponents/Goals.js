@@ -43,18 +43,21 @@ const Goals = ({ goals, trainingsData, nutritionData }) => {
 const styles = StyleSheet.create({
 	headerText: {
 		fontSize: 24,
-		marginTop: 10,
+		marginTop: 0,
 		fontWeight: 'bold',
 		alignSelf: 'center',
 		color: '#6b6e72',
 	},
 	goals: {
-		borderColor: '#e0e8e9',
-		backgroundColor: '#b4cdce',
-		borderWidth: 1,
+		borderColor: '#cbcecd',
+		//backgroundColor: '#b4cdce',
+		borderBottomWidth: 2,
 		alignSelf: 'center',
 		borderRadius: 20,
-		marginTop: 20,
+		marginTop: 10,
+		//paddingVertical: 20,
+		paddingHorizontal: 5,
+		paddingBottom: 20,
 	},
 	chart: {
 		alignItems: 'center',

@@ -90,7 +90,7 @@ const programs = {
 	nutrition: {
 		minRate: 0.7,
 		startDate: moment(),
-		endDate: moment().add(1, 'months'),
+		endDate: moment().add(2, 'months'),
 		completedRate: 0,
 		dailysPrograms: [
 			{

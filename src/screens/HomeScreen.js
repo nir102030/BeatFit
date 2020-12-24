@@ -21,14 +21,14 @@ const HomeScreen = () => {
 	const goals = [
 		{
 			type: 'אימונים',
-			name: 'אימונים',
-			targetType: 'הושלמו',
+			name: 'עמדת ביעד ב-',
+			targetType: 'מהאימונים עד כה',
 			value: `${Math.round(programs.training.completedRate * 100)}%`,
 		},
 		{
 			type: 'תזונה',
-			name: 'תפריט יומי',
-			targetType: 'עמדו ביעד',
+			name: 'עמדת ביעד ב-',
+			targetType: 'מהימים עד כה',
 			value: `${Math.round(programs.nutrition.completedRate * 100)}%`,
 		},
 	];

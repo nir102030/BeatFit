@@ -1,4 +1,5 @@
 import React, { useEffect, useContext, useState } from 'react';
+import { View, Text } from 'react-native';
 import LoadingScreen from '../screens/LoadingScreen';
 import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import { NavigationContainer } from '@react-navigation/native';
@@ -108,7 +109,24 @@ const AppNavigator = () => {
 							options={({ navigation }) => ({
 								headerMode: 'screen',
 								headerTitleAlign: 'center',
-								headerRight: () => <ProfileAvatar imgSrc={user ? user.img : null} />,
+								headerRight: () => {
+									return (
+										<View style={{ flexDirection: 'row-reverse', alignItems: 'center' }}>
+											<ProfileAvatar imgSrc={user ? user.img : null} />
+											<Text
+												style={{
+													// fontWeight: 'bold',
+													marginRight: 8,
+													marginLeft: 10,
+													fontSize: 18,
+													// color: '#073a72',
+												}}
+											>
+												היי, {user.fname}!
+											</Text>
+										</View>
+									);
+								},
 								headerLeft: () => <HeaderMenu navigation={navigation} />,
 							})}
 						/>

@@ -3,6 +3,7 @@ import { View, StyleSheet, Text } from 'react-native';
 import ProgramItem from './ProgramItem';
 import { getTotalSetsNum, getTotalSetsCompleted } from '../../functions/trainingsFunctions';
 import { getTotalCalories, getTotalCaloriesConsumed } from '../../functions/nutritionFunctions';
+import moment from 'moment';
 
 const DailyProgram = ({ dailyProgram, setProgram, programType }) => {
 	const category = dailyProgram.category;
@@ -53,6 +54,16 @@ const DailyProgram = ({ dailyProgram, setProgram, programType }) => {
 	return (
 		<View style={styles.container}>
 			<Text style={styles.date}>{dailyProgram.date}</Text>
+			{dailyProgram.blocked ? (
+				moment(dailyProgram.date) < moment() ? (
+					<Text style={{ color: 'red', marginVertical: 10 }}>חבל, פספסת את התכנית :(</Text>
+				) : (
+					<Text style={{ color: 'orange', marginVertical: 10 }}>התכנית תיפתח לעריכה בתאריך המתאים</Text>
+				)
+			) : null}
+			{dailyProgram.finished ? (
+				<Text style={{ color: 'green', marginVertical: 10 }}>כל הכבוד! התכנית בוצעה!</Text>
+			) : null}
 			{renderKPIs()}
 			{renderProgramItems}
 		</View>

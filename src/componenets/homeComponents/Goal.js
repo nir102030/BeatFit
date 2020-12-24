@@ -4,7 +4,7 @@ import { View, Text, StyleSheet } from 'react-native';
 const Goal = ({ goal }) => {
 	return (
 		<View style={styles.container}>
-			<Text style={styles.textStyle}>{goal.name} :</Text>
+			<Text style={styles.textStyle}>{goal.name}</Text>
 			<Text style={styles.textStyle}>
 				{goal.value} {goal.targetType}
 			</Text>
@@ -15,6 +15,8 @@ const Goal = ({ goal }) => {
 const styles = StyleSheet.create({
 	container: {
 		flexDirection: 'row',
+		marginTop: 3,
+		marginHorizontal: 10,
 	},
 	textStyle: {
 		margin: 3,
