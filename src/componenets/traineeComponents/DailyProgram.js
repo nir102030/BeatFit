@@ -54,7 +54,7 @@ const DailyProgram = ({ dailyProgram, setProgram, programType }) => {
 	return (
 		<View style={styles.container}>
 			<Text style={styles.date}>{dailyProgram.date}</Text>
-			{dailyProgram.blocked ? (
+			{dailyProgram.blocked && !dailyProgram.finished ? (
 				moment(dailyProgram.date) < moment() ? (
 					<Text style={{ color: 'red', marginVertical: 10 }}>חבל, פספסת את התכנית :(</Text>
 				) : (

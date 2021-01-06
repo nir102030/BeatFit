@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Button } from 'react-native-elements';
+import { View } from 'react-native';
+import { Button, Text } from 'react-native-elements';
 import { getPrograms } from '../data/programData';
 import { generateDailysTrainings } from '../functions/trainingsFunctions';
 import { generateDailysMenus } from '../functions/nutritionFunctions';
@@ -22,9 +23,9 @@ const CreateProgramScreen = () => {
 	}, []);
 
 	return (
-		<>
+		<View>
 			<Button
-				title="ייבא תוכנית אימון"
+				title="ייבא תכניות אימון ותזונה"
 				onPress={() => {
 					const newUser = {
 						...user,
@@ -33,7 +34,11 @@ const CreateProgramScreen = () => {
 					editUser(newUser);
 				}}
 			/>
-		</>
+			<View style={{ borderWidth: 1, borderRadius: 5, margin: 5 }}>
+				<Text style={{ margin: 5 }}>בשלב זה, תכניות האימון והתזונה הן גנריות</Text>
+				<Text style={{ margin: 5 }}>בגרסאות הבאות ניתן יהיה ליצור תכניות אימון ותזונה מותאמות אישית</Text>
+			</View>
+		</View>
 	);
 };
 

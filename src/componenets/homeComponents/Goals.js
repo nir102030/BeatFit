@@ -26,7 +26,7 @@ const Goals = ({ goals, trainingsData, nutritionData }) => {
 				<Text style={styles.headerText}>יעדי אימונים</Text>
 				<View style={styles.goalsList}>{renderGoals(traningsGoals)}</View>
 				<View style={styles.chart}>
-					<Chart data={trainingsData} backgroundColor={'#6cc6ca'} />
+					<Chart data={trainingsData} color={'#6cc6ca'} />
 				</View>
 			</View>
 			<View style={styles.goals}>

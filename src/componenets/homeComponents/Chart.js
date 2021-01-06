@@ -6,11 +6,11 @@ const Chart = ({ data, color }) => {
 	return (
 		<LineChart
 			data={data}
-			width={Dimensions.get('window').width * 1}
+			width={Dimensions.get('window').width * 0.95}
 			height={Dimensions.get('window').height * 0.3}
 			chartConfig={{
-				backgroundColor: '#00bde2',
-				backgroundGradientFrom: '#00bde2',
+				//backgroundColor: '#00bde2',
+				//backgroundGradientFrom: '#00bde2',
 				backgroundGradientTo: color,
 				decimalPlaces: 1,
 				color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
@@ -21,7 +21,7 @@ const Chart = ({ data, color }) => {
 			bezier
 			style={{
 				marginVertical: 5,
-				//borderRadius: 16,
+				borderRadius: 15,
 			}}
 			yAxisSuffix="%"
 			fromZero={true}

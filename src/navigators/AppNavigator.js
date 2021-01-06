@@ -16,6 +16,7 @@ import { Context as UserContext } from '../context/UserContext';
 import SignUpScreen from '../screens/SignUpScreen';
 import CreateProgramScreen from '../screens/CreateProgramScreen';
 import ProgramScreen from '../screens/ProgramScreen';
+import { getCompletedRate } from '../functions/homeFunctions';
 
 const AppNavigator = () => {
 	//get authentication state and actions
@@ -39,6 +40,22 @@ const AppNavigator = () => {
 	const Drawer = createDrawerNavigator();
 	const Stack = createStackNavigator();
 
+	const calculateCompletedRate = () => {
+		return {
+			training: {
+				...user.programs.training,
+				completedRate: getCompletedRate(user.programs.training.dailysPrograms, user.programs.training.minRate),
+			},
+			nutrition: {
+				...user.programs.nutrition,
+				completedRate: getCompletedRate(
+					user.programs.nutrition.dailysPrograms,
+					user.programs.nutrition.minRate
+				),
+			},
+		};
+	};
+
 	//main flow navigator, based on tab navigator
 	//contains the home, trainings and nutrition screens
 	const MainFlow = () => {
@@ -47,7 +64,12 @@ const AppNavigator = () => {
 				<Tab.Screen
 					name="Home"
 					component={HomeScreen}
-					initialParams={{ user: user }}
+					initialParams={{
+						user: {
+							...user,
+							programs: calculateCompletedRate(),
+						},
+					}}
 					options={{
 						tabBarLabel: 'בית',
 						tabBarIcon: ({ color, size }) => (
