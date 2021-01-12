@@ -17,6 +17,7 @@ import SignUpScreen from '../screens/SignUpScreen';
 import CreateProgramScreen from '../screens/CreateProgramScreen';
 import ProgramScreen from '../screens/ProgramScreen';
 import { getCompletedRate } from '../functions/homeFunctions';
+import CreateTrainingProgramScreen from '../screens/CreateTrainingProgramScreen';
 
 const AppNavigator = () => {
 	//get authentication state and actions
@@ -114,58 +115,82 @@ const AppNavigator = () => {
 		);
 	};
 
+	const CreateProgramFlow = () => {
+		return (
+			<Stack.Navigator>
+				<Stack.Screen
+					name="createProgram"
+					component={CreateProgramScreen}
+					options={() => ({
+						headerMode: 'screen',
+						headerTitleAlign: 'center',
+						headerTitle: 'BeatFit',
+						headerRight: () => <ProfileAvatar imgSrc={user ? user.img : null} />,
+					})}
+					headerTitle="BeatFit"
+				/>
+				<Stack.Screen
+					name="createTraining"
+					component={CreateTrainingProgramScreen}
+					options={() => ({
+						headerMode: 'screen',
+						headerTitle: 'BeatFit',
+						headerTitleAlign: 'center',
+						headerRight: () => <ProfileAvatar imgSrc={user ? user.img : null} />,
+					})}
+				/>
+			</Stack.Navigator>
+		);
+	};
+
+	const programsFlow = () => {
+		<Stack.Navigator>
+			<Stack.Screen
+				name={'BeatFit'}
+				component={SideDrawer}
+				options={({ navigation }) => ({
+					headerMode: 'screen',
+					headerTitleAlign: 'center',
+					headerRight: () => {
+						return (
+							<View style={{ flexDirection: 'row-reverse', alignItems: 'center' }}>
+								<ProfileAvatar imgSrc={user ? user.img : null} />
+								<Text
+									style={{
+										// fontWeight: 'bold',
+										marginRight: 8,
+										marginLeft: 10,
+										fontSize: 18,
+										// color: '#073a72',
+									}}
+								>
+									היי, {user.fname}!
+								</Text>
+							</View>
+						);
+					},
+					headerLeft: () => <HeaderMenu navigation={navigation} />,
+				})}
+			/>
+		</Stack.Navigator>;
+	};
+
 	//main stack
 	//rendered in case the user is alredy signed in
 	const mainStack = () => {
 		//in case the user is details are not loaded yet (waiting for server), render the loading screen
 		//otherwise, render the side drawer that contains all the app logic
-		return (
+		return user.userName ? (
+			//in case the user programs are not loaded yet, render the coach area
+			//otherwise, render the sideDrawer
+			user.programs ? (
+				programsFlow()
+			) : (
+				CreateProgramFlow()
+			)
+		) : (
 			<Stack.Navigator>
-				{user.userName ? (
-					//in case the user programs are not loaded yet, render the coach area
-					//otherwise, render the sideDrawer
-					user.programs ? (
-						<Stack.Screen
-							name={'BeatFit'}
-							component={SideDrawer}
-							options={({ navigation }) => ({
-								headerMode: 'screen',
-								headerTitleAlign: 'center',
-								headerRight: () => {
-									return (
-										<View style={{ flexDirection: 'row-reverse', alignItems: 'center' }}>
-											<ProfileAvatar imgSrc={user ? user.img : null} />
-											<Text
-												style={{
-													// fontWeight: 'bold',
-													marginRight: 8,
-													marginLeft: 10,
-													fontSize: 18,
-													// color: '#073a72',
-												}}
-											>
-												היי, {user.fname}!
-											</Text>
-										</View>
-									);
-								},
-								headerLeft: () => <HeaderMenu navigation={navigation} />,
-							})}
-						/>
-					) : (
-						<Stack.Screen
-							name="אזור מאמנים"
-							component={CreateProgramScreen}
-							options={() => ({
-								headerMode: 'screen',
-								headerTitleAlign: 'center',
-								headerRight: () => <ProfileAvatar imgSrc={user ? user.img : null} />,
-							})}
-						/>
-					)
-				) : (
-					<Stack.Screen name="Loading" component={LoadingScreen} options={{ headerShown: false }} />
-				)}
+				<Stack.Screen name="Loading" component={LoadingScreen} options={{ headerShown: false }} />
 			</Stack.Navigator>
 		);
 	};

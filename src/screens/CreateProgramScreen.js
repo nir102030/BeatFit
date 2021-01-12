@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { View } from 'react-native';
+import { View, StyleSheet, Dimensions } from 'react-native';
 import { Button, Text } from 'react-native-elements';
 import { getPrograms } from '../data/programData';
 import { generateDailysTrainings } from '../functions/trainingsFunctions';
 import { generateDailysMenus } from '../functions/nutritionFunctions';
 import { Context as UserContext } from '../context/UserContext';
 
-const CreateProgramScreen = () => {
+const CreateProgramScreen = ({ navigation }) => {
 	const [programs, setPrograms] = useState(); //in later versions, the program will be recived from other sources
 	const { state, editUser } = useContext(UserContext);
 	const user = state;
@@ -23,23 +23,39 @@ const CreateProgramScreen = () => {
 	}, []);
 
 	return (
-		<View>
-			<Button
-				title="ייבא תכניות אימון ותזונה"
-				onPress={() => {
-					const newUser = {
-						...user,
-						programs: programs,
-					};
-					editUser(newUser);
-				}}
-			/>
-			<View style={{ borderWidth: 1, borderRadius: 5, margin: 5 }}>
-				<Text style={{ margin: 5 }}>בשלב זה, תכניות האימון והתזונה הן גנריות</Text>
-				<Text style={{ margin: 5 }}>בגרסאות הבאות ניתן יהיה ליצור תכניות אימון ותזונה מותאמות אישית</Text>
+		<View style={styles.container}>
+			<Text style={styles.title}>ברוכים הבאים ל - BeatFit!</Text>
+			<View style={styles.buttonsContainer}>
+				<Button
+					buttonStyle={styles.button}
+					title="צור תכנית אימון"
+					onPress={() => navigation.navigate('createTraining')}
+				/>
+				<Button buttonStyle={styles.button} title="צור תכנית תזונה" />
 			</View>
 		</View>
 	);
 };
 
 export default CreateProgramScreen;
+
+const styles = StyleSheet.create({
+	container: {},
+	buttonsContainer: {
+		justifyContent: 'center',
+		marginTop: Dimensions.get('window').height * 0.1,
+	},
+	title: {
+		alignSelf: 'center',
+		fontSize: 30,
+		fontWeight: 'bold',
+		marginTop: Dimensions.get('window').height * 0.2,
+	},
+	button: {
+		marginVertical: 10,
+		marginHorizontal: 20,
+		borderRadius: 15,
+		opacity: 0.8,
+		backgroundColor: '#209C5E',
+	},
+});
