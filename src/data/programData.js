@@ -1,85 +1,86 @@
-import moment from 'moment';
+import moment from "moment";
+import { getImage } from "../api/appApi";
 
 const programs = {
 	training: {
 		minRate: 0.7,
 		startDate: moment(),
-		endDate: moment().add(3, 'months'),
-		period: { unit: 'months', value: 3 },
-		frequancy: { unit: 'week', value: 3 },
+		endDate: moment().add(3, "months"),
+		period: { unit: "months", value: 3 },
+		frequancy: { unit: "week", value: 3 },
 		days: [0, 2, 4],
 		completedRate: 0,
 		dailysPrograms: [
 			{
 				date: new Date().toJSON().substring(0, 10),
 				KPIs: [],
-				category: 'סט',
-				columnsTitles: ['חזרות', 'משקל'],
+				category: "סט",
+				columnsTitles: ["חזרות", "משקל"],
 				total: 9,
 				completed: 0,
 				blocked: false,
 				finished: false,
 				items: [
 					{
-						title: 'שכיבות שמיכה',
-						image: require('../assets/pushups.jpg'),
+						title: "שכיבות שמיכה",
+						image: getImage("pushups"),
 						subItems: [
 							{
-								name: '1',
+								name: "1",
 								done: false,
-								columnsValues: ['15', '0'],
+								columnsValues: ["15", "0"],
 							},
 							{
-								name: '2',
+								name: "2",
 								done: false,
-								columnsValues: ['15', '0'],
+								columnsValues: ["15", "0"],
 							},
 							{
-								name: '3',
+								name: "3",
 								done: false,
-								columnsValues: ['15', '0'],
+								columnsValues: ["15", "0"],
 							},
 						],
 					},
 					{
-						title: 'סקאוט',
-						image: require('../assets/squat.jpg'),
+						title: "סקאוט",
+						image: getImage("squat"),
 						subItems: [
 							{
-								name: '1',
+								name: "1",
 								done: false,
-								columnsValues: ['15', '5'],
+								columnsValues: ["15", "5"],
 							},
 							{
-								name: '2',
+								name: "2",
 								done: false,
-								columnsValues: ['15', '5'],
+								columnsValues: ["15", "5"],
 							},
 							{
-								name: '3',
+								name: "3",
 								done: false,
-								columnsValues: ['15', '5'],
+								columnsValues: ["15", "5"],
 							},
 						],
 					},
 					{
-						title: 'פלאנק',
-						image: require('../assets/plank.jpg'),
+						title: "פלאנק",
+						image: getImage("plank"),
 						subItems: [
 							{
-								name: '1',
+								name: "1",
 								done: false,
-								columnsValues: ['15', '0'],
+								columnsValues: ["15", "0"],
 							},
 							{
-								name: '2',
+								name: "2",
 								done: false,
-								columnsValues: ['15', '0'],
+								columnsValues: ["15", "0"],
 							},
 							{
-								name: '3',
+								name: "3",
 								done: false,
-								columnsValues: ['15', '0'],
+								columnsValues: ["15", "0"],
 							},
 						],
 					},
@@ -90,79 +91,79 @@ const programs = {
 	nutrition: {
 		minRate: 0.7,
 		startDate: moment(),
-		endDate: moment().add(2, 'months'),
+		endDate: moment().add(2, "months"),
 		completedRate: 0,
 		dailysPrograms: [
 			{
 				date: new Date().toJSON().substring(0, 10),
 				KPIs: [],
-				category: 'מאכל',
-				columnsTitles: ['כמות', 'יח', 'קלוריות'],
+				category: "מאכל",
+				columnsTitles: ["כמות", "יח", "קלוריות"],
 				total: 950,
 				completed: 0,
 				blocked: true,
 				finished: false,
 				items: [
 					{
-						title: 'ארוחת בוקר',
-						image: require('../assets/breakfast.jpg'),
+						title: "ארוחת בוקר",
+						image: getImage("breakfast"),
 						subItems: [
 							{
-								name: 'לחם',
+								name: "לחם",
 								done: false,
-								columnsValues: [2, 'פרוסה', 100],
+								columnsValues: [2, "פרוסה", 100],
 							},
 							{
-								name: 'ביצה',
+								name: "ביצה",
 								done: false,
-								columnsValues: [2, 'יח', 100],
+								columnsValues: [2, "יח", 100],
 							},
 							{
-								name: 'גבינה לבנה',
+								name: "גבינה לבנה",
 								done: false,
-								columnsValues: [1, 'כף', 50],
+								columnsValues: [1, "כף", 50],
 							},
 						],
 					},
 					{
-						title: 'ארוחת צהריים',
-						image: require('../assets/lunch.jpg'),
+						title: "ארוחת צהריים",
+						image: getImage("lunch"),
 						subItems: [
 							{
-								name: 'אורז',
+								name: "אורז",
 								done: false,
-								columnsValues: [1 / 2, 'כף', 150],
+								columnsValues: [1 / 2, "כף", 150],
 							},
 							{
-								name: 'חזה עוף',
+								name: "חזה עוף",
 								done: false,
-								columnsValues: [200, 'גר', 250],
+								columnsValues: [200, "גר", 250],
 							},
 							{
-								name: 'טחינה',
+								name: "טחינה",
 								done: false,
-								columnsValues: [1, 'כף', 100],
+								columnsValues: [1, "כף", 100],
 							},
 						],
 					},
 					{
-						title: 'ארוחת ערב',
-						image: require('../assets/dinner.jpg'),
+						title: "ארוחת ערב",
+						image: getImage("dinner"),
 						subItems: [
 							{
-								name: 'לחם',
+								name: "לחם",
 								done: false,
-								columnsValues: [1, 'פרוסה', 50],
+								columnsValues: [1, "פרוסה", 50],
 							},
 							{
-								name: 'קוטג',
+								name: "קוטג",
 								done: false,
-								columnsValues: [3, 'כף', 50],
+								columnsValues: [3, "כף", 50],
 							},
 							{
-								name: 'סלט',
+								name: "סלט",
 								done: false,
-								columnsValues: [1, 'כוס', 100],
+								columnsValues: [1, "כוס", 100],
 							},
 						],
 					},

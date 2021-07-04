@@ -33,9 +33,8 @@ export const updateProgramsOnDb = (
 	setMarkedDates,
 	getMarkedDates,
 	getCompletedRate,
-	user,
 	programType,
-	editUser,
+	editProgram,
 	navigation
 ) => {
 	//set the state of the daily program to finshed
@@ -57,15 +56,9 @@ export const updateProgramsOnDb = (
 	const completedRate = getCompletedRate(newDailysPrograms, program.minRate);
 
 	//edit user with the new daily program
-	const newUser = {
-		...user,
-		programs: {
-			...user.programs,
-			[programType]: { ...program, dailysPrograms: newDailysPrograms, completedRate: completedRate },
-		},
-	};
-	editUser(newUser);
-	navigation.navigate('Home', { user: newUser });
+	const newProgram = { ...program, dailysPrograms: newDailysPrograms, completedRate: completedRate };
+	editProgram(newProgram);
+	navigation.navigate("Home");
 };
 
 export const finishTrainingAlert = (
@@ -79,19 +72,19 @@ export const finishTrainingAlert = (
 	getCompletedRate,
 	user,
 	programType,
-	editUser,
+	editProgram,
 	navigation
 ) => {
 	Alert.alert(
 		`היי ${user.fname}`,
-		programType == 'training' ? 'אתה בטוח שברצונך לסיים את האימון?' : 'אתה בטוח שסיימת לאכול להיום?',
+		programType == "training" ? "אתה בטוח שברצונך לסיים את האימון?" : "אתה בטוח שסיימת לאכול להיום?",
 		[
 			{
-				text: 'לא, עדיין לא סיימתי',
-				style: 'cancel',
+				text: "לא, עדיין לא סיימתי",
+				style: "cancel",
 			},
 			{
-				text: programType == 'training' ? 'כן, סיים אימון' : 'כן, סיימתי',
+				text: programType == "training" ? "כן, סיים אימון" : "כן, סיימתי",
 				onPress: () =>
 					updateProgramsOnDb(
 						dailyProgram,
@@ -101,9 +94,8 @@ export const finishTrainingAlert = (
 						setMarkedDates,
 						getMarkedDates,
 						getCompletedRate,
-						user,
 						programType,
-						editUser,
+						editProgram,
 						navigation
 					),
 			},

@@ -32,7 +32,7 @@ export const generateDailysMenus = (program) => {
 	// into the dailys programs array if it fittes the program days.
 	while (date < endDate) {
 		dailysPrograms.push({ ...nutritionProgram, date: date.toJSON().substring(0, 10) });
-		date.add(1, 'days');
+		date.add(1, "days");
 	}
 	return { ...program, dailysPrograms: dailysPrograms };
 };

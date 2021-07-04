@@ -1,34 +1,36 @@
 {
-  "expo": {
-    "name": "BeatFit",
-    "slug": "BeatFit",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/BeatFit.png",
-    "splash": {
-      "image": "./assets/BeatFit.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "android": {
-      "package": "com.nirKatz.BeatFit",
-      "versionCode": 1,
-      "permissions": []
-    },
-    "updates": {
-      "fallbackToCacheTimeout": 0
-    },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
-    "ios": {
-      "supportsTablet": true
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
-    },
-    "description": "This is your app for managing your daily trainings and menus",
-    "githubUrl": "https://github.com/nir102030/BeatFit",
-    "privacy": "public"
-  }
+	"expo": {
+		"name": "BeatFit",
+		"slug": "BeatFit",
+		"version": "1.0.0",
+		"orientation": "portrait",
+		"icon": "./assets/icon.png",
+		"splash": {
+			"image": "./assets/splash.png",
+			"resizeMode": "contain",
+			"backgroundColor": "#ffffff"
+		},
+		"android": {
+			"package": "com.nirKatz.BeatFit",
+			"versionCode": 2,
+			"permissions": [],
+			"adaptiveIcon": {
+				"foregroundImage": "./assets/adaptive-icon.png",
+				"backgroundColor": "#ffffff"
+			}
+		},
+		"updates": {
+			"fallbackToCacheTimeout": 0
+		},
+		"assetBundlePatterns": ["**/*"],
+		"ios": {
+			"supportsTablet": true
+		},
+		"web": {
+			"favicon": "./assets/icon.png"
+		},
+		"description": "This is your app for managing your daily trainings and menus",
+		"githubUrl": "https://github.com/nir102030/BeatFit",
+		"privacy": "public"
+	}
 }
